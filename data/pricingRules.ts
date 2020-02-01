@@ -47,5 +47,27 @@ export default {
         updateCart(newCart);
       },
     },
+    {
+      name: 'Bulk Discount',
+      variables: {
+        sku: 'ipd',
+        threshold: 4,
+        newPrice: 499.99,
+      },
+      apply(cart: Array<Product>, updateCart: (cart: Product[]) => void): void {
+        const { sku, threshold, newPrice } = this.variables;
+        let newCart: Array<Product> = cart;
+        const affectedSKUs = cart?.filter(product => product.sku === sku);
+        const unaffectedSKUs = cart?.filter(product => product.sku !== sku);
+
+        if (affectedSKUs.length > threshold) {
+          const newSKUs = affectedSKUs.map(sku =>
+            Object.assign({}, sku, { price: newPrice }),
+          );
+          newCart = [...unaffectedSKUs, ...newSKUs];
+          updateCart(newCart);
+        }
+      },
+    },
   ],
 };

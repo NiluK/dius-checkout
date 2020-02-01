@@ -1,7 +1,7 @@
 class Checkout {
   cartTotal: number;
   offers: Array<Offer>;
-  cart: any | null;
+  cart: Array<Product>;
   products: Array<Product>;
 
   constructor(pricingRules: PricingRules) {
@@ -12,23 +12,24 @@ class Checkout {
     this.cart = [];
   }
 
-  scan = (item: string): null => {
+  scan = (item: string): void => {
     const product = this.products.find(
       (product: Product) => product.sku === item,
     );
-    this.cart.push(product);
-    return null;
+    if (product) {
+      this.cart.push(product);
+    }
   };
 
   updateCart = (cart: Array<Product>): void => {
     this.cart = cart;
   };
 
-  applyOffers = () => {
+  applyOffers = (): void => {
     this.offers.forEach(offer => offer.apply(this.cart, this.updateCart));
   };
 
-  calculateTotal = () => {
+  calculateTotal = (): void => {
     this.cartTotal = this.cart.reduce((aggregate: number, item: Product) => {
       return aggregate + item.price;
     }, 0);

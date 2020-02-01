@@ -6,7 +6,7 @@ interface Product {
 }
 
 interface Offer {
-  variables: Record<string, any>;
+  variables: Record<string, unknown>;
   apply(
     cart?: Array<Product>,
     updateCart?: (cart: Array<Product>) => void,
