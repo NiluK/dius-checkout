@@ -1,8 +1,8 @@
 class Checkout {
   cartTotal: number;
-  offers: Array<Offer>;
-  cart: Array<Product>;
-  products: Array<Product>;
+  offers: Offer[];
+  cart: Product[];
+  products: Product[];
 
   constructor(pricingRules: PricingRules) {
     this.offers = pricingRules.offers;
@@ -21,7 +21,7 @@ class Checkout {
     }
   };
 
-  updateCart = (cart: Array<Product>): void => {
+  updateCart = (cart: Product[]): void => {
     this.cart = cart;
   };
 
@@ -30,9 +30,15 @@ class Checkout {
   };
 
   calculateTotal = (): void => {
-    this.cartTotal = this.cart.reduce((aggregate: number, item: Product) => {
-      return aggregate + item.price;
-    }, 0);
+    /* js is a bit idiosyncratic when comes to numbers so we're rounding to 2dp
+    so that results are somewhat consistent */
+
+    this.cartTotal =
+      Math.round(
+        this.cart.reduce((aggregate: number, item: Product) => {
+          return aggregate + item.price;
+        }, 0) * 100,
+      ) / 100;
   };
 
   total = (): number => {

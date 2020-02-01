@@ -1,5 +1,5 @@
 import Checkout from './index';
-import pricingRules from '../data/pricingRules';
+import pricingRules from './pricingRules';
 
 const threeForOneTestCases = [
   { quantity: 1, free: 0 },
@@ -30,7 +30,8 @@ describe('Get X for Y offer, 3 for 1', () => {
   });
 
   for (const testCase of threeForOneTestCases) {
-    it(`When customer purchases ${testCase.quantity} Apple TVs, they should recieve ${testCase.free} free.`, () => {
+    it(`When customer purchases ${testCase.quantity} Apple TVs, 
+        they should recieve ${testCase.free} free.`, () => {
       const expectedTotal =
         atvPrice * testCase.quantity - atvPrice * testCase.free + vgaPrice;
 
@@ -45,7 +46,7 @@ describe('Get X for Y offer, 3 for 1', () => {
   }
 });
 
-describe.only('Get Bulk Discount offer', () => {
+describe('Get Bulk Discount offer', () => {
   let co: Checkout;
   beforeEach(() => {
     co = new Checkout(pricingRules);
@@ -67,5 +68,42 @@ describe.only('Get Bulk Discount offer', () => {
     co.scan('ipd');
 
     expect(co.total()).toEqual(2718.95);
+  });
+});
+
+describe.only('Get Bulk Discount offer', () => {
+  let co: Checkout;
+  beforeEach(() => {
+    co = new Checkout(pricingRules);
+  });
+
+  it('Cart starts empty and total price starts at 0', () => {
+    expect(co.cart.length).toEqual(0);
+    expect(co.total()).toEqual(0);
+  });
+
+  it('Generates free products for Macs properly', () => {
+    co.scan('mbp');
+    co.scan('ipd');
+    co.scan('vga');
+
+    expect(co.total()).toEqual(1949.98);
+  });
+  it('Generates free products for Macs properly', () => {
+    co.scan('mbp');
+    co.scan('ipd');
+    co.scan('vga');
+    co.scan('vga');
+
+    expect(co.total()).toEqual(1979.98);
+  });
+  it.only('Generates free products for Macs properly', () => {
+    co.scan('mbp');
+    co.scan('mbp');
+    co.scan('ipd');
+    co.scan('vga');
+
+    expect(co.total()).toEqual(3349.97);
+    expect(co.cart.length).toEqual(5);
   });
 });
