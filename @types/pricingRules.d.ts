@@ -7,7 +7,11 @@ interface Product {
 
 interface Offer {
   variables: Record<string, unknown>;
-  apply(cart?: Product[], updateCart?: (cart: Product[]) => void): void;
+  apply(
+    variables: Record<string, unknown>,
+    cart?: Product[],
+    updateCart?: (cart: Product[]) => void,
+  ): void;
 }
 
 interface PricingRules {

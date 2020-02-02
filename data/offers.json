@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Buy X for Y",
+    "rule": "priceRuleXforY",
+    "data": {
+      "sku": "atv",
+      "threshold": 3,
+      "quantityToPayFor": 2
+    }
+  },
+  {
+    "name": "Bulk Discount",
+    "rule": "priceRuleBulkDiscount",
+    "data": {
+      "sku": "ipd",
+      "threshold": 4,
+      "newPrice": 499.99
+    }
+  },
+  {
+    "name": "Free X Product for Every Y Product",
+    "rule": "priceRuleFreeProduct",
+    "data": {
+      "purchasedProductSKU": "mbp",
+      "freeProductSKU": "vga"
+    }
+  }
+]

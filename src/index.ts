@@ -26,7 +26,9 @@ class Checkout {
   };
 
   applyOffers = (): void => {
-    this.offers.forEach(offer => offer.apply(this.cart, this.updateCart));
+    this.offers.forEach(offer =>
+      offer.apply(offer.variables, this.cart, this.updateCart),
+    );
   };
 
   calculateTotal = (): void => {
